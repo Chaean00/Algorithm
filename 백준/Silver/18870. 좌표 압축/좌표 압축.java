@@ -9,7 +9,7 @@ public class Main {
 		
 		int N = Integer.parseInt(br.readLine());
 		int[] x = new int[N];
-		List<Integer> index = new ArrayList<>();
+		
 		Set<Integer> set = new HashSet<>();
 		Map<Integer, Integer> map = new HashMap<>();
 		
@@ -20,9 +20,7 @@ public class Main {
 			set.add(value);
 		}
 		
-		for (int i : set) {
-			index.add(i);
-		}
+		List<Integer> index = new ArrayList<>(set);
 		
 		Collections.sort(index);
 		
