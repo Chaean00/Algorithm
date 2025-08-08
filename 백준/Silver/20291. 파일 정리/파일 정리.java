@@ -8,26 +8,16 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(br.readLine());
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Integer> map = new TreeMap<>();
 
         for (int i=0; i<N; i++) {
             String ex = br.readLine().split("\\.")[1];
 
             map.put(ex, map.getOrDefault(ex, 0) + 1);
         }
-        
-        String[] arr = new String[map.size()];
 
-        int i=0;
         for (String key : map.keySet()) {
-            arr[i] = key;
-            i++;
-        }
-
-        Arrays.sort(arr, (a1, b1) -> a1.compareTo(b1));
-
-        for (String name : arr) {
-            sb.append(name).append(" ").append(map.get(name)).append("\n");
+            sb.append(key).append(" ").append(map.get(key)).append("\n");
         }
 
         System.out.println(sb);
