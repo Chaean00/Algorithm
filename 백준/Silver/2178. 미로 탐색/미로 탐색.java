@@ -1,67 +1,58 @@
-import java.io.*;
+// BOJ - 2178
 import java.util.*;
-
+import java.io.*;
 class Point {
-    int x, y;
+    int x,y;
 
-    public Point(int x, int y) {
+    Point(int x,int y) {
         this.x = x;
         this.y = y;
     }
 }
-
 public class Main {
-    static int N, M; // x, y
-    static int[] dx = {1,0,-1,0}; // x 이동 값
-    static int[] dy = {0,1,0,-1}; // y 이동 값
-    static int[][] maze; // 미로를 담을 2차원 배열
-    static boolean[][] visit; // 방문 흔적을 남길 2차원 배열
-
-    public static void main (String[] args) throws IOException {
+    static int N, M;
+    static int[][] arr;
+    static int[] DX = {-1, 0, 1, 0};
+    static int[] DY = {0, -1, 0, 1};
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        maze = new int[N][M];
-        visit = new boolean[N][M];
+        arr = new int[N][M];
 
         for (int i=0; i<N; i++) {
             String str = br.readLine();
             for (int j=0; j<M; j++) {
-                maze[i][j] = Integer.parseInt(Character.toString(str.charAt(j)));
+                char c = str.charAt(j);
+                arr[i][j] = Integer.parseInt(c + "");
             }
         }
 
-        for (int i=0; i<N; i++) {
-            for (int j=0; j<M; j++) {
-                if (maze[i][j] == 1 && !visit[i][j]) {
-                    BFS(i, j);
-                }
-            }
-        }
-
-        System.out.println(maze[N-1][M-1]);
+        System.out.println(bfs());
     }
 
-    public static void BFS(int x, int y) {
-        Queue<Point> Q = new LinkedList<>();
-        Q.offer(new Point(x, y));
-        visit[x][y] = true;
+    static public int bfs() {
+        Queue<Point> q = new LinkedList<>();
+        q.offer(new Point(0, 0));
+        
+        while (!q.isEmpty()) {
+            Point p = q.poll();
+            if (p.x == N-1 && p.y == M -1) return arr[p.x][p.y];
 
-        while (!Q.isEmpty()) {
-            Point point = Q.poll();
             for (int d=0; d<4; d++) {
-                int p_x = point.x + dx[d];
-                int p_y = point.y + dy[d];
+                int nx = p.x + DX[d];
+                int ny = p.y + DY[d];
 
-                if (p_x < 0 || p_x >= N || p_y < 0 || p_y >= M) continue;
-                if (visit[p_x][p_y] || maze[p_x][p_y] == 0) continue;
+                if (nx >= N || nx < 0 || ny >= M || ny < 0) continue;
+                if (arr[nx][ny] != 1) continue;
 
-                Q.offer(new Point(p_x, p_y));
-                maze[p_x][p_y] = maze[point.x][point.y] + 1;
-                visit[p_x][p_y] = true;
+                arr[nx][ny] = arr[p.x][p.y] + 1;
+                q.offer(new Point(nx, ny));
             }
         }
+
+        return -1;
     }
 }
