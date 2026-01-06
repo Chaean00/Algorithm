@@ -1,26 +1,46 @@
 // BOJ - 10814
-import java.util.*;
+
 import java.io.*;
+import java.util.*;
+
+
+class Member {
+	int age;
+	String name;
+	
+	public Member(int age, String name) {
+		this.age = age;
+		this.name = name;
+	}
+}
 
 public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
+        StringBuilder sb = new StringBuilder();
+        
         int N = Integer.parseInt(br.readLine());
-        String[][] users = new String[N][2];
+        
+        List<Member> members = new ArrayList<>();
+        
         for (int i=0; i<N; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-
-            users[i][0] = st.nextToken();
-            users[i][1] = st.nextToken();
+        	StringTokenizer st = new StringTokenizer(br.readLine());
+        	
+        	int age = Integer.parseInt(st.nextToken());
+        	String name = st.nextToken();
+        	
+        	members.add(new Member(age, name));
         }
-
-        Arrays.sort(users, (a1, b1) -> {
-            return Integer.parseInt(a1[0]) - Integer.parseInt(b1[0]);
-        });
-
+        
+        Collections.sort(members, (a, b) -> a.age - b.age);
+        
+        
         for (int i=0; i<N; i++) {
-            System.out.println(users[i][0] + " " + users[i][1]);
+        	Member member = members.get(i);
+        	sb.append(member.age).append(" ");
+        	sb.append(member.name).append("\n");
         }
+        
+        System.out.println(sb);
     }
 }
